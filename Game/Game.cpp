@@ -1,40 +1,50 @@
-#include <iostream> // for input/output
-#include <cstdlib> // for random number generation
-#include <ctime> // for time()
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
 int main() {
-    // seed the random number generator
-    srand(time(NULL));
+    
+    srand(static_cast<unsigned int>(time(nullptr)));
 
-    // set up the game
-    const int MAX_NUMBER = 100;
-    int targetNumber = rand() % MAX_NUMBER + 1;
-    int guess, numGuesses = 0;
+    int minNum, maxNum;
 
-    // play the game
+    
+    cout << "Enter the minimum number: ";
+    cin >> minNum;
+    cout << "Enter the maximum number: ";
+    cin >> maxNum;
+
+    
+    if (minNum >= maxNum) {
+        cout << "Invalid input. Maximum number must be greater than minimum number." << endl;
+        return 1; 
+    }
+
+    
+    int secretNumber = minNum + rand() % (maxNum - minNum + 1);
+
+    int guess, attempts = 0;
+
+    cout << "Guess the number between " << minNum << " and " << maxNum << "." << endl;
+
     do {
-        // get the user's guess
-        cout << "Guess a number between 1 and " << MAX_NUMBER << ": ";
+        cout << "Enter your guess: ";
         cin >> guess;
+        attempts++;
 
-        // check if the guess is too high, too low, or correct
-        if (guess > targetNumber) {
-            cout << "Too high! Try again." << endl;
+        if (guess == secretNumber) {
+            cout << "Congratulations! You guessed the number " << secretNumber << " in " << attempts << " attempts." << endl;
+            break;
         }
-        else if (guess < targetNumber) {
-            cout << "Too low! Try again." << endl;
+        else if (guess < secretNumber) {
+            cout << "Try a higher number." << endl;
         }
         else {
-            cout << "Correct! You win!" << endl;
+            cout << "Try a lower number." << endl;
         }
-
-        numGuesses++;
-    } while (guess != targetNumber);
-
-    // display the number of guesses it took to win
-    cout << "You took " << numGuesses << " guess(es) to win." << endl;
+    } while (true);
 
     return 0;
 }
